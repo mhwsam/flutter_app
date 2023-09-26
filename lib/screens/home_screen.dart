@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Welcome to the Home Screen!'),
+            Text('Welcome to the Home Screen'),
 
             // Check if the API response is available
             if (apiResponse != null)
@@ -69,6 +69,7 @@ class HomeScreen extends StatelessWidget {
                   // Display the API response data here as needed
                   // Example: Display the user's name
                   Text('User Name: ${apiResponse['user']['name']}'),
+                   Text('Phone Number: ${apiResponse['user']['phone']}'),
                   // Add more widgets to display other data from the API response
                 ],
               ),
