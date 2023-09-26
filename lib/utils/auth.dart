@@ -40,11 +40,12 @@ class AuthProvider with ChangeNotifier {
     );
     print('After HTTP POST request');
     print('Response Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
+    // print('Response Body: ${response.body}');
     if (response.statusCode == 200) {
+      print("hiiiii");
       final responseData = json.decode(response.body);
       // Check the response data for success or failure.
-      if (responseData['success'] == true) {
+      if (responseData['status'] == true) {
         _loggedInUser = email;
         notifyListeners();
         return true;
