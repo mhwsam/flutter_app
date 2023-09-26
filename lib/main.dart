@@ -6,14 +6,18 @@ import 'package:burobd/screens/home_screen.dart';
 import 'package:burobd/utils/auth.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: MyApp(),
+    ),
+  );
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'burobd',
+      title: 'burobd', // Set the app title to 'burobd'.
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
-        // '/home': (context) => HomeScreen(),
+        '/home': (context) => HomeScreen(),
 
         
       },

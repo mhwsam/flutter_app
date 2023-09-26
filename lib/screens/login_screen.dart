@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:burobd/utils/auth.dart';
 
 class LoginScreen extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('Login'),
@@ -38,16 +47,18 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               // Email Input
-              const TextField(
+              TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                 ),
-              ), 
+              ),
               const SizedBox(height: 8),
               // Password Input
-              const TextField(
+              TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(
@@ -59,28 +70,45 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
 
-
-
-
               // Login Button
-              
+
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Handle login logic here.
                   // Navigator.pushReplacementNamed(context, '/home'); // Replace with actual login logic.
+                  // Get the user-entered email and password from the text fields.
+                  final email =
+                      emailController.text; // Replace with user-entered email
+                  final password = passwordController
+                      .text; // Replace with user-entered password
+                  print('Email: $email');
+                  print('Password: $password');
+                  // Call the login method from the authProvider.
+                  final loginSuccessful =
+                      await authProvider.login(email, password);
+                  if (loginSuccessful) {
+                    // Navigate to the home screen after successful login.
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushReplacementNamed(context, '/home');
+                  } else {
+                    // Handle login failure.
+                    // Show an error message or display a snackbar.
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                            'Login failed. Please check your credentials.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       Colors.black), // Set the background color to black
                 ),
-                
                 child: const Text('Login'),
               ),
-
-
-
-
-
 
               const SizedBox(height: 8), // Small gap
               // Forgot Password Link
@@ -88,9 +116,10 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   // Handle forgot password logic here.
                 },
-                
-                child: const Text('Forgot Password?',
-                style: TextStyle(color: Colors.black),),
+                child: const Text(
+                  'Forgot Password?',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ],
           ),
