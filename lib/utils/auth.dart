@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:burobd/utils/api_config.dart';
 
 class UserData {
   final String name;
@@ -29,7 +30,9 @@ class AuthProvider with ChangeNotifier {
   Map<String, dynamic>? get apiResponse => _apiResponse; // Getter for API response
 
   Future<bool> login(String email, String password) async {
-    final url = Uri.parse('http://18.139.226.72/api/v1/auth/login');
+    // final url = Uri.parse('http://18.139.226.72/api/v1/auth/login');
+    final url = Uri.parse('${ApiConfig.baseUrl}api/v1/auth/login'); // Construct the URL using the centralized config
+
     print('Email from auth: $email');
     print('Password from auth: $password');
     print('Before HTTP POST request');
