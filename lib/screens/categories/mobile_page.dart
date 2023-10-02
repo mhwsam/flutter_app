@@ -128,6 +128,7 @@ Future<List<MobileProduct>> fetchMobileProducts(BuildContext context) async {
     print("**************************");
     print("After Printing Response Data");
     if (responseData.containsKey("data")) {
+      print("response data theke ");
       final Map<String, dynamic> data = responseData["data"];
       final List<dynamic> productDataList = data["data"];
 
