@@ -10,7 +10,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Simulate a delay of 4 seconds and then navigate to the login screen.
-    Future.delayed(const Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, '/login');
     });
   }

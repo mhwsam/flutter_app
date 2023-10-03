@@ -32,6 +32,10 @@
 // }
 
 // class SearchPage extends StatelessWidget {
+//   void _navigateToHome(BuildContext context) {
+//     Navigator.pushReplacementNamed(context, '/home');
+//   }
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
@@ -42,6 +46,12 @@
 //         children: [
 //           SearchWidget(), // Include the SearchWidget
 //           // Add more widgets for search results or filters here
+//           IconButton(
+//             icon: Icon(Icons.home),
+//             onPressed: () {
+//               _navigateToHome(context);
+//             },
+//           ),
 //         ],
 //       ),
 //     );
@@ -97,13 +107,47 @@ class SearchPage extends StatelessWidget {
         children: [
           SearchWidget(), // Include the SearchWidget
           // Add more widgets for search results or filters here
-          IconButton(
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            onPressed: () {
-              _navigateToHome(context);
-            },
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Logout',
           ),
         ],
+        currentIndex: 1, // Set the selected index to 1 for the "Search" icon
+        selectedItemColor: Color(0xFFAA292E),
+        unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          if (index == 0) {
+            // Handle Profile icon tap
+          } else if (index == 2) {
+            _navigateToHome(context);
+          } else if (index == 3) {
+            // Handle Contact icon tap
+          } else if (index == 4) {
+            // Handle Logout icon tap
+            
+          }
+        },
+        backgroundColor: Color(0xFF545454),
       ),
     );
   }

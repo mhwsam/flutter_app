@@ -287,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _selectedIndex,
          selectedItemColor: Color(0xFFAA292E),
+         unselectedItemColor: Colors.grey, // Color for unselected items
           onTap: (index) {
     setState(() {
       _selectedIndex = index;
@@ -298,6 +299,10 @@ class _HomeScreenState extends State<HomeScreen> {
         MaterialPageRoute(builder: (context) => SearchPage()), // Navigate to SearchPage
       );
     }
+     if (index == 4) { // Check if the "Logout" icon is tapped
+      authProvider.logout();
+      Navigator.pushReplacementNamed(context, '/login');
+    } 
   },
          backgroundColor: Color(0xFF545454),
       ),

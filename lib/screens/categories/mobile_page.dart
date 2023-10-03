@@ -129,8 +129,13 @@ Future<List<MobileProduct>> fetchMobileProducts(BuildContext context) async {
     print("After Printing Response Data");
     if (responseData.containsKey("data")) {
       print("response data theke ");
+
       final Map<String, dynamic> data = responseData["data"];
       final List<dynamic> productDataList = data["data"];
+      print(data);
+      // Parse the JSON data
+
+      // Access the title
 
       final List<MobileProduct> products = productDataList.map((data) {
         return MobileProduct(
