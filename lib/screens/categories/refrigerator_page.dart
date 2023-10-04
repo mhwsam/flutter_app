@@ -72,124 +72,6 @@
 //   }
 // }
 
-// import 'package:flutter/material.dart';
-// import 'package:burobd/utils/api_config.dart';
-// import 'package:burobd/utils/auth.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:provider/provider.dart';
-
-// class RefrigeratorPage extends StatefulWidget {
-//   @override
-//   _RefrigeratorPageState createState() => _RefrigeratorPageState();
-// }
-
-// class _RefrigeratorPageState extends State<RefrigeratorPage> {
-//   List<String> productTitles = [];
-//   int currentPage = 1;
-//   bool isLoading = false;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchData();
-//   }
-
-//   Future<void> fetchData() async {
-//     if (isLoading) return;
-
-//     setState(() {
-//       isLoading = true;
-//     });
-
-//     // Move the provider access to fetchData
-//     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-//     final apiUrl = Uri.parse(
-//         '${ApiConfig.baseUrl}api/v1/category/refrigerator?page=$currentPage');
-
-//     try {
-//       final response = await http.get(
-//         apiUrl,
-//         headers: {
-//           'Authorization':
-//               'Bearer ${authProvider.apiResponse?['access_token']}',
-//         },
-//       );
-
-//       if (response.statusCode == 200) {
-//         final data = jsonDecode(response.body);
-//         final productsData = data['data']['products']['data'];
-
-//         if (productsData != null) {
-//           final products = productsData as List<dynamic>;
-
-//           for (var product in products) {
-//             final title = product['title'] as String;
-//             productTitles.add(title);
-//           }
-
-//           setState(() {});
-
-//           // Check if there are more pages
-//           final nextPage = data['data']['products']['next_page_url'];
-//           print("Update korar por");
-//           print(nextPage);
-//           if (nextPage != null) {
-//             currentPage++;
-//             fetchData(); // Fetch data for the next page
-//             print(apiUrl);
-//           }
-//         } else {
-//           throw Exception('No products data in API response');
-//         }
-//       } else {
-//         throw Exception(
-//             'Failed to fetch data. Status Code: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//     } finally {
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Refrigerators'),
-//       ),
-//       body: productTitles.isEmpty
-//           ? Center(child: CircularProgressIndicator())
-//           : Column(
-//               children: [
-//                 Expanded(
-//                   child: ListView.builder(
-//                     itemCount: productTitles.length,
-//                     itemBuilder: (BuildContext context, int index) {
-//                       return Card(
-//                         child: ListTile(
-//                           title: Text(productTitles[index]),
-//                         ),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//                 if (isLoading)
-//                   Center(child: CircularProgressIndicator())
-//                 else if (currentPage <
-//                     2) // Show "Load More" button only if there are more pages to load
-//                   ElevatedButton(
-//                     onPressed: fetchData,
-//                     child: Text('Load More'),
-//                   ),
-//               ],
-//             ),
-//     );
-//   }
-// }
 
 
 import 'package:flutter/material.dart';
@@ -302,6 +184,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                   ),
               ],
             ),
+            
     );
   }
 }
