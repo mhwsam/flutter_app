@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'burobd', // Set the app title to 'burobd'.
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        // useMaterial3: true,
       ),
       initialRoute: '/splash',
       routes: {

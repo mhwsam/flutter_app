@@ -284,24 +284,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: productsInfo.length,
-                    // itemBuilder: (BuildContext context, int index) {
-                    //   final productInfo = productsInfo[index];
-                    //   return Card(
-                    //     child: ListTile(
-                    //       title: Text(productInfo['title']),
-                    //       subtitle: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text(
-                    //               'Regular Price: ${productInfo['regular_price']}'),
-                    //           Text(
-                    //               'Discount Price: ${productInfo['discount_price']}'),
-                    //           Text('Stock: ${productInfo['stock']}'),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   );
-                    // },
+
                     itemBuilder: (BuildContext context, int index) {
                       final productInfo = productsInfo[index];
                       return Card(
@@ -334,6 +317,8 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                         ),
                       );
                     },
+
+              
                   ),
                 ),
                 if (isLoading)
