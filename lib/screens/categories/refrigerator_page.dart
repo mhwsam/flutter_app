@@ -284,6 +284,24 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: productsInfo.length,
+                    // itemBuilder: (BuildContext context, int index) {
+                    //   final productInfo = productsInfo[index];
+                    //   return Card(
+                    //     child: ListTile(
+                    //       title: Text(productInfo['title']),
+                    //       subtitle: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           Text(
+                    //               'Regular Price: ${productInfo['regular_price']}'),
+                    //           Text(
+                    //               'Discount Price: ${productInfo['discount_price']}'),
+                    //           Text('Stock: ${productInfo['stock']}'),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   );
+                    // },
                     itemBuilder: (BuildContext context, int index) {
                       final productInfo = productsInfo[index];
                       return Card(
@@ -297,6 +315,20 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                               Text(
                                   'Discount Price: ${productInfo['discount_price']}'),
                               Text('Stock: ${productInfo['stock']}'),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons
+                                  .shopping_cart), // Add your desired icon here
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Implement your "Add to Cart" functionality here
+                                  // You can add the selected product to the cart or perform any other action.
+                                },
+                                child: Text('Add to Cart'),
+                              ),
                             ],
                           ),
                         ),
