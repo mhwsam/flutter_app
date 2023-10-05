@@ -192,6 +192,7 @@ import 'package:burobd/utils/auth.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:burobd/screens/product_details.dart';
 
 class RefrigeratorPage extends StatefulWidget {
   @override
@@ -246,6 +247,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
               'regular_price': pivotData['price'],
               'discount_price': pivotData['discount_price'],
               'stock': pivotData['stock'],
+              
             };
             productsInfo.add(productInfo);
           });
@@ -284,7 +286,6 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                 Expanded(
                   child: ListView.builder(
                     itemCount: productsInfo.length,
-
                     itemBuilder: (BuildContext context, int index) {
                       final productInfo = productsInfo[index];
                       return Card(
@@ -314,11 +315,26 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                               ),
                             ],
                           ),
+                          onTap: () {
+                            // Navigate to the product details page with the selected product's name
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailsPage(
+                                  productName: productInfo[
+                                      'title'], // Pass the selected product's title
+                                  regularPrice: productInfo[
+                                      'regular_price'], // Pass the regular price
+                                  discountPrice: productInfo[
+                                      'discount_price'], // Pass the discount price
+                                  stock: productInfo['stock'], // Pass the stock
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },
-
-              
                   ),
                 ),
                 if (isLoading)
