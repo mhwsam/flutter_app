@@ -247,9 +247,10 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
               'regular_price': pivotData['price'],
               'discount_price': pivotData['discount_price'],
               'stock': pivotData['stock'],
-              
+              'slug': product['slug'] as String,
             };
             productsInfo.add(productInfo);
+            // print(productInfo['slug']);
           });
         } else {
           throw Exception('No products data in API response');
@@ -321,13 +322,14 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ProductDetailsPage(
-                                  productName: productInfo[
-                                      'title'], // Pass the selected product's title
-                                  regularPrice: productInfo[
-                                      'regular_price'], // Pass the regular price
-                                  discountPrice: productInfo[
-                                      'discount_price'], // Pass the discount price
-                                  stock: productInfo['stock'], // Pass the stock
+                                  // productName: productInfo[
+                                  //     'title'], // Pass the selected product's title
+                                  // regularPrice: productInfo[
+                                  //     'regular_price'], // Pass the regular price
+                                  // discountPrice: productInfo[
+                                  //     'discount_price'], // Pass the discount price
+                                  // stock: productInfo['stock'], // Pass the stock
+                                  slug: productInfo['slug'], // Pass the slug
                                 ),
                               ),
                             );
@@ -345,7 +347,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                     onPressed: () {
                       fetchData(loadMore: true);
                     },
-                    child: Text('Load More'),
+                    child: const Text('Load More'),
                   ),
               ],
             ),
