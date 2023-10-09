@@ -315,8 +315,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
                       ),
                       TableCell(
-                        child: Text('Value',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        child: Center(
+                          child: Text('Value',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ],
                   ),
