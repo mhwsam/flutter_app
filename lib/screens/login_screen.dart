@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
               // Email Input
               TextField(
                 controller: emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
               // Password Input
               TextField(
                 controller: passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black),

@@ -62,14 +62,19 @@
 import 'package:flutter/material.dart';
 
 class SearchWidget extends StatelessWidget {
+  const SearchWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: Theme(
+        data: Theme.of(context).copyWith(
+          primaryColor: Colors.grey[600],
+        ),
         child: TextField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(
                 width: 0,
@@ -77,15 +82,12 @@ class SearchWidget extends StatelessWidget {
               ),
             ),
             filled: true,
-            prefixIcon: Icon(Icons.search),
-            fillColor: Color(0xFFF2F4F5),
+            prefixIcon: const Icon(Icons.search),
+            fillColor: const Color(0xFFF2F4F5),
             hintStyle: TextStyle(color: Colors.grey[600]),
             hintText: "What would you like to buy?",
           ),
           autofocus: false,
-        ),
-        data: Theme.of(context).copyWith(
-          primaryColor: Colors.grey[600],
         ),
       ),
     );
@@ -93,6 +95,8 @@ class SearchWidget extends StatelessWidget {
 }
 
 class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
   void _navigateToHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/home');
   }
@@ -101,9 +105,9 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: const Text('Search'),
       ),
-      body: Column(
+      body: const Column(
         children: [
           SearchWidget(), // Include the SearchWidget
           // Add more widgets for search results or filters here
@@ -133,7 +137,7 @@ class SearchPage extends StatelessWidget {
           ),
         ],
         currentIndex: 1, // Set the selected index to 1 for the "Search" icon
-        selectedItemColor: Color(0xFFAA292E),
+        selectedItemColor: const Color(0xFFAA292E),
         unselectedItemColor: Colors.grey,
         onTap: (index) {
           if (index == 0) {
@@ -147,7 +151,7 @@ class SearchPage extends StatelessWidget {
             
           }
         },
-        backgroundColor: Color(0xFF545454),
+        backgroundColor: const Color(0xFF545454),
       ),
     );
   }

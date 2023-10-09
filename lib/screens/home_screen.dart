@@ -156,6 +156,8 @@ import 'package:burobd/screens/search_page.dart';
 
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -196,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('FairElectronics Home'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               authProvider.logout();
               Navigator.pushReplacementNamed(context, '/login');
@@ -205,17 +207,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(), // Enable scrolling
+        physics: const BouncingScrollPhysics(), // Enable scrolling
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           // Text('Welcome to the Home Screen', style: TextStyle(fontSize: 20)),
 
           // Search Bar with Icons
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search...',
@@ -224,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
                     // Implement filter functionality here
                   },
@@ -237,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (apiResponse != null)
             Column(
               children: [
-                Text('API Response Data:'),
+                const Text('API Response Data:'),
                 // Display the API response data here as needed
                 // Example: Display the user's name
                 Text('User Name: ${apiResponse['user']['name']}'),
@@ -248,11 +250,11 @@ class _HomeScreenState extends State<HomeScreen> {
           // ... (Other widgets you want to display)
 
           // Add the GridView for categories
-          Center(child: Text('All Categories', style: TextStyle(fontSize: 20))),
+          const Center(child: Text('All Categories', style: TextStyle(fontSize: 20))),
           GridView.builder(
             shrinkWrap: true,
             itemCount: categories.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, // Number of columns in the grid
             ),
             itemBuilder: (context, index) {
@@ -286,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-         selectedItemColor: Color(0xFFAA292E),
+         selectedItemColor: const Color(0xFFAA292E),
          unselectedItemColor: Colors.grey, // Color for unselected items
           onTap: (index) {
     setState(() {
@@ -296,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (index == 1) { // Check if the Search icon is tapped
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SearchPage()), // Navigate to SearchPage
+        MaterialPageRoute(builder: (context) => const SearchPage()), // Navigate to SearchPage
       );
     }
      if (index == 4) { // Check if the "Logout" icon is tapped
@@ -304,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.pushReplacementNamed(context, '/login');
     } 
   },
-         backgroundColor: Color(0xFF545454),
+         backgroundColor: const Color(0xFF545454),
       ),
     );
   }
@@ -320,7 +322,7 @@ class CategoryData {
 class CategoryCard extends StatelessWidget {
   final CategoryData category;
 
-  CategoryCard({required this.category});
+  const CategoryCard({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +330,7 @@ class CategoryCard extends StatelessWidget {
 
     return Card(
       elevation: 3,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
           if (category.name == 'Mobile' && authProvider.isLoggedIn) {
@@ -344,7 +346,7 @@ class CategoryCard extends StatelessWidget {
             Navigator.pushNamed(context, '/washingmachine');
           } else if (!authProvider.isLoggedIn) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text('Please log in to access this feature.'),
                 backgroundColor: Colors.red,
               ),
@@ -355,8 +357,8 @@ class CategoryCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(category.icon, size: 22),
-            SizedBox(height: 10),
-            Text(category.name, style: TextStyle(fontSize: 14)),
+            const SizedBox(height: 10),
+            Text(category.name, style: const TextStyle(fontSize: 14)),
           ],
         ),
       ),

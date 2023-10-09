@@ -155,11 +155,13 @@ Future<List<MobileProduct>> fetchMobileProducts(BuildContext context) async {
 }
 
 class MobilePage extends StatelessWidget {
+  const MobilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Mobiles')),
+        title: const Center(child: Text('Mobiles')),
       ),
       body: FutureBuilder<List<MobileProduct>>(
         future:
@@ -178,10 +180,10 @@ class MobilePage extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             // Handle the case where no data is available.
-            return Center(child: Text('No mobile products available.'));
+            return const Center(child: Text('No mobile products available.'));
           } else if (snapshot.data == null || snapshot.data!.isEmpty) {
             // Handle the case where no data is available or it's null.
-            return Center(child: Text('No mobile products available.'));
+            return const Center(child: Text('No mobile products available.'));
           } else {
             // Data has been successfully fetched, display the products.
             final mobileProducts = snapshot.data!;

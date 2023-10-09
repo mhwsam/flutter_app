@@ -13,11 +13,13 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => AuthProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,13 +30,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/splash',
       routes: {
-        '/splash': (context) => SplashScreen(),
+        '/splash': (context) => const SplashScreen(),
         '/login': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
-        '/mobile': (context) => MobilePage(), // Add the route to MobilePage
-        '/tv': (context) => TVPage(), // Add the route to TVPage
-        '/refrigerator': (context) => RefrigeratorPage(),
-        '/washingmachine': (context) => WashingMachinePage(),
+        '/home': (context) => const HomeScreen(),
+        '/mobile': (context) => const MobilePage(), // Add the route to MobilePage
+        '/tv': (context) => const TVPage(), // Add the route to TVPage
+        '/refrigerator': (context) => const RefrigeratorPage(),
+        '/washingmachine': (context) => const WashingMachinePage(),
       },
     );
   }

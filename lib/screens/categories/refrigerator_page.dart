@@ -195,6 +195,8 @@ import 'package:provider/provider.dart';
 import 'package:burobd/screens/product_details.dart';
 
 class RefrigeratorPage extends StatefulWidget {
+  const RefrigeratorPage({super.key});
+
   @override
   _RefrigeratorPageState createState() => _RefrigeratorPageState();
 }
@@ -239,7 +241,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
           final products = productsData as List<dynamic>;
 
           // Extract and store additional information for each product
-          products.forEach((product) {
+          for (var product in products) {
             final pivotData = product['companies'][0]['pivot'];
             final productInfo = {
               'title': product['title'] as String,
@@ -251,7 +253,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
             };
             productsInfo.add(productInfo);
             // print(productInfo['slug']);
-          });
+          }
         } else {
           throw Exception('No products data in API response');
         }
@@ -278,10 +280,10 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Refrigerators'),
+        title: const Text('Refrigerators'),
       ),
       body: productsInfo.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Expanded(
@@ -305,14 +307,14 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons
+                              const Icon(Icons
                                   .shopping_cart), // Add your desired icon here
                               ElevatedButton(
                                 onPressed: () {
                                   // Implement your "Add to Cart" functionality here
                                   // You can add the selected product to the cart or perform any other action.
                                 },
-                                child: Text('Add to Cart'),
+                                child: const Text('Add to Cart'),
                               ),
                             ],
                           ),
@@ -340,7 +342,7 @@ class _RefrigeratorPageState extends State<RefrigeratorPage> {
                   ),
                 ),
                 if (isLoading)
-                  Center(child: CircularProgressIndicator())
+                  const Center(child: CircularProgressIndicator())
                 else if (currentPage <=
                     2) // Show "Load More" button only if there are more pages to load
                   ElevatedButton(

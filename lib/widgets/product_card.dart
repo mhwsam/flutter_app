@@ -5,7 +5,7 @@ class ProductCard extends StatelessWidget {
   final String image;
   final double price;
 
-  ProductCard({
+  const ProductCard({super.key, 
     required this.name,
     required this.image,
     required this.price,
@@ -16,7 +16,7 @@ class ProductCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: EdgeInsets.all(8), // Add some margin between cards
+      margin: const EdgeInsets.all(8), // Add some margin between cards
       decoration: BoxDecoration(
         color: theme.cardColor, // Use cardColor for the background
         borderRadius: BorderRadius.circular(16), // Rounded corners
@@ -24,7 +24,7 @@ class ProductCard extends StatelessWidget {
           BoxShadow(
             blurRadius: 4,
             color: theme.shadowColor.withOpacity(0.2),
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(16),
               topRight: Radius.circular(16),
             ),
@@ -52,13 +52,13 @@ class ProductCard extends StatelessWidget {
                   name,
                   style: theme.textTheme.titleLarge, // Use headline6 for the name
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   '\$${price.toStringAsFixed(2)}',
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.primaryColor,
-                  ) ?? TextStyle(),
+                  ) ?? const TextStyle(),
                 ),
               ],
             ),
