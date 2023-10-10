@@ -39,14 +39,14 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:burobd/utils/api_config.dart';
 import 'package:burobd/utils/auth.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:burobd/utils/ProductProvider.dart';
+import 'package:burobd/screens/checkout_page.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final String slug;
@@ -83,6 +83,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final product = data['product'];
+
+        // Access the ProductProvider and set the product data
+        final productProvider =
+            Provider.of<ProductProvider>(context, listen: false);
+        productProvider.setProductData(product);
 
         setState(() {
           productData = product;
@@ -145,6 +150,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   ElevatedButton(
                     onPressed: () {
                       // Implement  "Buy Now" functionality here
+                       Navigator.of(context).pushNamed('/checkout');
                     },
                     child: const Text('Buy Now'),
                   ),
