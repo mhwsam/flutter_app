@@ -112,11 +112,17 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Display a single image from the API
+            // Image.network(
+            //   '${ApiConfig.baseUrl}uploads/${productData['photo']}',
+            //   fit: BoxFit.cover,
+            //   width: double.infinity,
             Image.network(
-              '${ApiConfig.baseUrl}uploads/${productData['photo']}',
-              fit: BoxFit.cover,
+              "${ApiConfig.baseUrl}api/v1/product/${productData['photo']}",
+              height: 150,
               width: double.infinity,
+              fit: BoxFit.cover,
             ),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -147,10 +153,38 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ],
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     // Implement  "Buy Now" functionality here
+                  //     Navigator.of(context).pushNamed('/checkout');
+                  //   },
+                  //   child: const Text('Buy Now'),
+                  // ),
                   ElevatedButton(
                     onPressed: () {
-                      // Implement  "Buy Now" functionality here
-                       Navigator.of(context).pushNamed('/checkout');
+                      if (productData['companies'][0]['pivot']['stock'] == 0) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Out of Stock'),
+                              content: const Text(
+                                  'Sorry, this product is currently out of stock.'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        // Implement "Buy Now" functionality here, e.g., navigate to the checkout page.
+                        Navigator.of(context).pushNamed('/checkout');
+                      }
                     },
                     child: const Text('Buy Now'),
                   ),
