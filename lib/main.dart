@@ -11,14 +11,6 @@ import 'package:burobd/screens/checkout_page.dart';
 import 'package:burobd/utils/auth.dart';
 import 'package:burobd/utils/ProductProvider.dart';
 
-// void main() {
-//   runApp(
-//     ChangeNotifierProvider(
-//       create: (context) => AuthProvider(),
-//       child: const MyApp(),
-//     ),
-//   );
-// }
 
 void main() {
   runApp(
@@ -39,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'burobd', // Set the app title to 'burobd'.
       theme: ThemeData(
         primarySwatch: Colors.blue,
