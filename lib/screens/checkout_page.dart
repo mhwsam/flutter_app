@@ -1,407 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'package:burobd/utils/ProductProvider.dart';
-// import 'package:burobd/utils/api_config.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import 'package:burobd/utils/auth.dart';
-// import 'package:flutter/services.dart';
-
-// class CheckoutPage extends StatefulWidget {
-//   const CheckoutPage({super.key});
-
-//   @override
-//   _CheckoutPageState createState() => _CheckoutPageState();
-// }
-
-// class _CheckoutPageState extends State<CheckoutPage> {
-//   String? selectedCenterId;
-//   final TextEditingController shippingNameController = TextEditingController();
-//   final TextEditingController customerAddressController = TextEditingController();
-//   final TextEditingController customerIdController = TextEditingController();
-//   final TextEditingController nidController = TextEditingController();
-
-//   Future<void> _placeOrder(
-//       BuildContext context, Map<String, dynamic> orderData) async {
-//     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-//     final apiUrl = Uri.parse('${ApiConfig.baseUrl}api/v1/place-order');
-
-//     try {
-//       final response = await http.post(
-//         apiUrl,
-//         headers: {
-//           'Authorization':
-//               'Bearer ${authProvider.apiResponse?['access_token']}',
-//           'Content-Type': 'application/json', // Set the content type
-//         },
-//         body: jsonEncode(orderData), // Convert the orderData to JSON
-//       );
-
-//       if (response.statusCode == 200) {
-//         // Order placed successfully, you can handle the response here
-//         final responseData = jsonDecode(response.body);
-//         print('Order Response: $responseData');
-//         _showSuccessDialog(context);
-//       } else {
-//         throw Exception(
-//             'Failed to place the order. Status Code: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//     }
-//   }
-
-//   void _showSuccessDialog(BuildContext context) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text('Order Placed Successfully'),
-//           content: const Text('Your order has been successfully placed.'),
-//           actions: [
-//             TextButton(
-//               child: const Text('OK'),
-//               onPressed: () {
-//                 Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final productProvider = Provider.of<ProductProvider>(context);
-//     final productData = productProvider.productData;
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Checkout'),
-//       ),
-//       body: productData != null
-//           ? Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Text('Product Title: ${productData['title']}'),
-//                 Text('Product ID: ${productData['id']}'),
-//                 Text('Product SKU: ${productData['sku']}'),
-//                 Text('Product UUID: ${productData['uuid']}'),
-//                 Text('Photo: ${productData['photo']}'),
-//                 Text(
-//                     'Price: ${productData['companies'][0]['pivot']['price'] ?? ''}'),
-//                 Text(
-//                     'Discount Price: ${productData['companies'][0]['pivot']['discount_price'] ?? ''}'),
-//                 Text(
-//                     'Stock: ${productData['companies'][0]['pivot']['stock'] ?? ''}'),
-//                 TextField(
-//                   controller: shippingNameController,
-//                   decoration: const InputDecoration(labelText: 'Shipping Name'),
-//                 ),
-//                 TextField(
-//                   controller: customerAddressController,
-//                   decoration: const InputDecoration(labelText: 'Customer Address'),
-//                 ),
-//                 TextField(
-//                   controller: customerIdController,
-//                   decoration: const InputDecoration(labelText: 'Customer ID'),
-//                 ),
-//                 DropdownButtonFormField<String>(
-//                   value: selectedCenterId,
-//                   items: const [
-//                     DropdownMenuItem(
-//                       value: "2001-IT Office",
-//                       child: Text("2001-IT Office"),
-//                     ),
-//                     DropdownMenuItem(
-//                       value: "1008-Gulshan",
-//                       child: Text("1008-Gulshan"),
-//                     ),
-//                   ],
-//                   onChanged: (value) {
-//                     setState(() {
-//                       selectedCenterId = value;
-//                     });
-//                   },
-//                   hint: const Text('Select Center'),
-//                 ),
-//                 TextField(
-//                   controller: nidController,
-//                   decoration: const InputDecoration(labelText: 'NID'),
-//                   keyboardType: TextInputType.number,
-//                   inputFormatters: <TextInputFormatter>[
-//                     FilteringTextInputFormatter.digitsOnly,
-//                   ],
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     final orderData = {
-//                       "cartTotalAmount": 16738,
-//                       "cartTotalQuantity": 1,
-//                       "customer_name": "Ahasan Ullah",
-//                       "shipping_name": shippingNameController.text,
-//                       "customer_email": "ahasan.ullah@fel.com.bd",
-//                       "shipping_email": "ahsanullah716@gmail.com",
-//                       "customer_phone": "0178922912",
-//                       "customer_address": customerAddressController.text,
-//                       "customer_city": "Dhaka",
-//                       "customer_thana": "Mohammadpur",
-//                       "payment_type": "COD",
-//                       "order_note": "Test",
-//                       "customer_id": customerIdController.text,
-//                       "cartType": "DEVICE",
-//                       "center_id": selectedCenterId,
-//                       "nid": int.parse(nidController.text),
-//                       "cartItems": [
-//                         {
-//                           "id": 275,
-//                           "photo": "FTL-zkTUaASUrT.webp",
-//                           "cartQuantity": 1,
-//                           "price": 23399,
-//                           "discount_price": 20338,
-//                           "sku": "SM-E135FIDDBKD",
-//                           "product_tpe": "CE",
-//                           "title": "galaxy-f13-464-gb-orange-copper",
-//                           "uuid": "58bd7bef-3e93-4a3a-83c3-dfc945fd5bd4",
-//                           "stock": 47,
-//                           "vattributes": ""
-//                         }
-//                       ],
-//                     };
-
-//                     _placeOrder(context, orderData);
-//                   },
-//                   child: const Text('Place Order'),
-//                 ),
-//               ],
-//             )
-//           : const Center(
-//               child: Text('Product data is not available.'),
-//             ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:provider/provider.dart';
-// import 'package:burobd/utils/ProductProvider.dart';
-// import 'package:burobd/utils/api_config.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import 'package:burobd/utils/auth.dart';
-
-// class CheckoutPage extends StatefulWidget {
-//   const CheckoutPage({super.key});
-
-//   @override
-//   _CheckoutPageState createState() => _CheckoutPageState();
-// }
-
-// class _CheckoutPageState extends State<CheckoutPage> {
-//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-//   String? selectedCenterId;
-//   final TextEditingController shippingNameController = TextEditingController();
-//   final TextEditingController customerAddressController = TextEditingController();
-//   final TextEditingController customerIdController = TextEditingController();
-//   final TextEditingController nidController = TextEditingController();
-
-//   Future<void> _placeOrder(
-//       BuildContext context, Map<String, dynamic> orderData) async {
-//     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-//     final apiUrl = Uri.parse('${ApiConfig.baseUrl}api/v1/place-order');
-
-//     try {
-//       final response = await http.post(
-//         apiUrl,
-//         headers: {
-//           'Authorization':
-//               'Bearer ${authProvider.apiResponse?['access_token']}',
-//           'Content-Type': 'application/json',
-//         },
-//         body: jsonEncode(orderData),
-//       );
-
-//       if (response.statusCode == 200) {
-//         final responseData = jsonDecode(response.body);
-//         print('Order Response: $responseData');
-//         _showSuccessDialog(context);
-//       } else {
-//         throw Exception(
-//             'Failed to place the order. Status Code: ${response.statusCode}');
-//       }
-//     } catch (e) {
-//       print('Error: $e');
-//     }
-//   }
-
-//   void _showSuccessDialog(BuildContext context) {
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text('Order Placed Successfully'),
-//           content: const Text('Your order has been successfully placed.'),
-//           actions: [
-//             TextButton(
-//               child: const Text('OK'),
-//               onPressed: () {
-//                 Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final productProvider = Provider.of<ProductProvider>(context);
-//     final productData = productProvider.productData;
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Checkout'),
-//       ),
-//       body: productData != null
-//           ? Form(
-//               key: _formKey,
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Text('Product Title: ${productData['title']}'),
-//                   Text('Product ID: ${productData['id']}'),
-//                   Text('Product SKU: ${productData['sku']}'),
-//                   Text('Product UUID: ${productData['uuid']}'),
-//                   Text('Photo: ${productData['photo']}'),
-//                   Text(
-//                       'Price: ${productData['companies'][0]['pivot']['price'] ?? ''}'),
-//                   Text(
-//                       'Discount Price: ${productData['companies'][0]['pivot']['discount_price'] ?? ''}'),
-//                   Text(
-//                       'Stock: ${productData['companies'][0]['pivot']['stock'] ?? ''}'),
-
-//                   TextFormField(
-//                     controller: shippingNameController,
-//                     decoration: const InputDecoration(labelText: 'Shipping Name'),
-//                     validator: (value) {
-//                       if (value.isEmpty) {
-//                         return 'Shipping Name is required';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-
-//                   TextFormField(
-//                     controller: customerAddressController,
-//                     decoration: const InputDecoration(labelText: 'Customer Address'),
-//                     validator: (value) {
-//                       if (value.isEmpty) {
-//                         return 'Customer Address is required';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-
-//                   TextFormField(
-//                     controller: customerIdController,
-//                     decoration: const InputDecoration(labelText: 'Customer ID'),
-//                     validator: (value) {
-//                       if (value.isEmpty) {
-//                         return 'Customer ID is required';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-
-//                   DropdownButtonFormField<String>(
-//                     value: selectedCenterId,
-//                     items: const [
-//                       DropdownMenuItem(
-//                         value: "2001-IT Office",
-//                         child: Text("2001-IT Office"),
-//                       ),
-//                       DropdownMenuItem(
-//                         value: "1008-Gulshan",
-//                         child: Text("1008-Gulshan"),
-//                       ),
-//                     ],
-//                     onChanged: (value) {
-//                       setState(() {
-//                         selectedCenterId = value;
-//                       });
-//                     },
-//                     hint: const Text('Select Center'),
-//                   ),
-
-//                   TextFormField(
-//                     controller: nidController,
-//                     decoration: const InputDecoration(labelText: 'NID'),
-//                     keyboardType: TextInputType.number,
-//                     inputFormatters: <TextInputFormatter>[
-//                       FilteringTextInputFormatter.digitsOnly,
-//                     ],
-//                     validator: (value) {
-//                       if (value.isEmpty) {
-//                         return 'NID is required';
-//                       }
-//                       return null;
-//                     },
-//                   ),
-
-//                   ElevatedButton(
-//                     onPressed: () {
-//                       if (_formKey.currentState!.validate()) {
-//                         final orderData = {
-//                           "cartTotalAmount": 16738,
-//                           "cartTotalQuantity": 1,
-//                           "customer_name": "Ahasan Ullah",
-//                           "shipping_name": shippingNameController.text,
-//                           "customer_email": "ahasan.ullah@fel.com.bd",
-//                           "shipping_email": "ahsanullah716@gmail.com",
-//                           "customer_phone": "0178922912",
-//                           "customer_address": customerAddressController.text,
-//                           "customer_city": "Dhaka",
-//                           "customer_thana": "Mohammadpur",
-//                           "payment_type": "COD",
-//                           "order_note": "Test",
-//                           "customer_id": customerIdController.text,
-//                           "cartType": "DEVICE",
-//                           "center_id": selectedCenterId,
-//                           "nid": int.parse(nidController.text),
-//                           "cartItems": [
-//                             {
-//                               "id": 275,
-//                               "photo": "FTL-zkTUaASUrT.webp",
-//                               "cartQuantity": 1,
-//                               "price": 23399,
-//                               "discount_price": 20338,
-//                               "sku": "SM-E135FIDDBKD",
-//                               "product_tpe": "CE",
-//                               "title": "galaxy-f13-464-gb-orange-copper",
-//                               "uuid": "58bd7bef-3e93-4a3a-83c3-dfc945fd5bd4",
-//                               "stock": 47,
-//                               "vattributes": ""
-//                             }
-//                           ],
-//                         };
-
-//                         _placeOrder(context, orderData);
-//                       }
-//                     },
-//                     child: const Text('Place Order'),
-//                   ),
-//                 ],
-//               ),
-//             )
-//           : const Center(
-//               child: Text('Product data is not available.'),
-//             ),
-//     );
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -412,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:burobd/utils/auth.dart';
 
+
+
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
@@ -419,7 +17,12 @@ class CheckoutPage extends StatefulWidget {
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
+
 class _CheckoutPageState extends State<CheckoutPage> {
+  String? userName;
+  String? userEmail;
+  String? userPhone;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -468,7 +71,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           // Handle the case where the 'status' is false
           final message = responseData['message'];
           print('Failed to place the order: $message');
-          print("---------------------------");
+          
         }
       } else {
         throw Exception(
@@ -532,6 +135,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductProvider>(context);
     final productData = productProvider.productData;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final apiResponse = authProvider.apiResponse;
+    print("-------xxxxxxxxxxx-------------");
+    print('User Name: ${apiResponse?['user']?['name']}');
+    userName = apiResponse?['user']?['name'];
+    print('User Email: ${apiResponse?['user']?['email']}');
+    userEmail = apiResponse?['user']?['email'];
+    print('User phone: ${apiResponse?['user']?['phone']}');
+    userPhone = apiResponse?['user']?['phone'];
+    
     String? selectedCenterName;
     int? selectedCenterId;
 
@@ -634,6 +247,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       if (value == null || value.isEmpty) {
                         return 'NID is required';
                       }
+                      if (value.length != 10 &&
+                          value.length != 13 &&
+                          value.length != 17) {
+                        return 'Invalid NID';
+                      }
                       return null;
                     },
                   ),
@@ -641,23 +259,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         final orderData = {
-                          "cartTotalAmount": 16738,
-                          "cartTotalQuantity": 1,
-                          "customer_name": "Ahasan Ullah",
-                          "shipping_name": shippingNameController.text,
-                          "customer_email": "ahasan.ullah@fel.com.bd",
-                          "shipping_email": "ahsanullah716@gmail.com",
-                          "customer_phone": "0178922912",
-                          "customer_address": customerAddressController.text,
-                          "customer_city": "Dhaka",
-                          "customer_thana": "Mohammadpur",
-                          "payment_type": "COD",
-                          "order_note": "Test",
-                          "customer_id": customerIdController.text,
-                          "cartType": "DEVICE",
+                          "cartTotalAmount": productData['companies'][0]
+                              ['pivot']['price'],
+                          "cartTotalQuantity": 1, //fixed
+                          "customer_name": userName,
+                              // "Ahasan Ullah", // from auth -- got it
+                          "shipping_name":
+                              shippingNameController.text, //from user input
+                          "customer_email": userEmail,
+                              // "ahasan.ullah@fel.com.bd", // from auth ----- got it
+                          "shipping_email":userEmail,
+                              // "ahsanullah716@gmail.com", // from auth ----- got it
+                          "customer_phone": userPhone,
+                              // "0178922912", // from auth ----- got it
+                          "customer_address":
+                              customerAddressController.text, //from user input
+                          "customer_city": "Dhaka", //optional
+                          "customer_thana": "Mohammadpur", //optional
+                          "payment_type": "COD", //fixed
+                          "order_note": "Test", //optional
+                          "customer_id":
+                              customerIdController.text, //from user input
+                          "cartType":
+                              "DEVICE", // Device for Mobile & CE for other products
                           // "center_id": selectedCenterId,
-                          "center_id":  selectedCenterId,
-                          "nid": int.parse(nidController.text),
+                          "center_id": selectedCenterId, //from user input
+                          "nid":
+                              int.parse(nidController.text), //from user input
                           "cartItems": [
                             {
                               // "id": 275,
