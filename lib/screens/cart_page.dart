@@ -267,7 +267,7 @@ class CartPage extends StatelessWidget {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Price: \$${(product.price * product.quantity).toStringAsFixed(2)}'),
+                            Text('Price: ৳ ${(product.price * product.quantity).toStringAsFixed(2)}'),
                             Text('Quantity: ${product.quantity}'),
                           ],
                         ),
