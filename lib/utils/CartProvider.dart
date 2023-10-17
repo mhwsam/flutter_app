@@ -27,19 +27,34 @@ class CartProvider with ChangeNotifier {
   List<Product> items = [];
 
   double get totalPrice {
-    return items.fold(0, (total, product) => total + (product.price * product.quantity));
+    return items.fold(
+        0, (total, product) => total + (product.price * product.quantity));
   }
 
-  void addToCart(Product product) {
-    final existingProduct = items.firstWhere(
-      (p) => p.id == product.id,
-      orElse: () => Product(id: -1, name: '', price: 0, quantity: 0, slug: ''), // Provide a default product if not found
-    );
+  // void addToCart(Product product) {
+  //   final existingProduct = items.firstWhere(
+  //     (p) => p.id == product.id,
+  //     orElse: () => Product(id: -1, name: '', price: 0, quantity: 0, slug: ''), // Provide a default product if not found
+  //   );
 
-    if (existingProduct.id == -1) {
-      items.add(product);
+  //   if (existingProduct.id == -1) {
+  //     items.add(product);
+  //   } else {
+  //     existingProduct.quantity++;
+  //   }
+
+  //   notifyListeners();
+  // }
+  void addToCart(Product product) {
+    final existingProductIndex = items.indexWhere((p) => p.id == product.id);
+
+    if (existingProductIndex != -1) {
+      // If the product is already in the cart, increment its quantity
+      items[existingProductIndex].quantity++;
     } else {
-      existingProduct.quantity++;
+      // If the product is not in the cart, add it with a quantity of 1
+      product.quantity = 1;
+      items.add(product);
     }
 
     notifyListeners();
@@ -58,8 +73,12 @@ class CartProvider with ChangeNotifier {
   void updateQuantity(Product product, int quantity) {
     final existingProduct = items.firstWhere(
       (p) => p.id == product.id,
-     orElse: () => Product(id: -1, name: '', price: 0, quantity: 0, slug: ''), // Provide a default slug if not found
-
+      orElse: () => Product(
+          id: -1,
+          name: '',
+          price: 0,
+          quantity: 0,
+          slug: ''), // Provide a default slug if not found
     );
 
     if (existingProduct.id != -1) {
